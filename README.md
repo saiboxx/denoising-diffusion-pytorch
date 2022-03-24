@@ -13,25 +13,25 @@ This implementation was transcribed from the official Tensorflow version <a href
 ## Install
 
 ```bash
-$ pip install denoising_diffusion_pytorch
+$ pip install ddpm
 ```
 
 ## Usage
 
 ```python
 import torch
-from denoising_diffusion_pytorch import Unet, GaussianDiffusion
+from ddpm import Unet, GaussianDiffusion
 
 model = Unet(
-    dim = 64,
-    dim_mults = (1, 2, 4, 8)
+    dim=64,
+    dim_mults=(1, 2, 4, 8)
 )
 
 diffusion = GaussianDiffusion(
     model,
-    image_size = 128,
-    timesteps = 1000,   # number of steps
-    loss_type = 'l1'    # L1 or L2
+    image_size=128,
+    timesteps=1000,  # number of steps
+    loss_type='l1'  # L1 or L2
 )
 
 training_images = torch.randn(8, 3, 128, 128)
@@ -39,36 +39,36 @@ loss = diffusion(training_images)
 loss.backward()
 # after a lot of training
 
-sampled_images = diffusion.sample(batch_size = 4)
-sampled_images.shape # (4, 3, 128, 128)
+sampled_images = diffusion.sample(batch_size=4)
+sampled_images.shape  # (4, 3, 128, 128)
 ```
 
 Or, if you simply want to pass in a folder name and the desired image dimensions, you can use the `Trainer` class to easily train a model.
 
 ```python
-from denoising_diffusion_pytorch import Unet, GaussianDiffusion, Trainer
+from ddpm import Unet, GaussianDiffusion, Trainer
 
 model = Unet(
-    dim = 64,
-    dim_mults = (1, 2, 4, 8)
+    dim=64,
+    dim_mults=(1, 2, 4, 8)
 ).cuda()
 
 diffusion = GaussianDiffusion(
     model,
-    image_size = 128,
-    timesteps = 1000,   # number of steps
-    loss_type = 'l1'    # L1 or L2
+    image_size=128,
+    timesteps=1000,  # number of steps
+    loss_type='l1'  # L1 or L2
 ).cuda()
 
 trainer = Trainer(
     diffusion,
     'path/to/your/images',
-    train_batch_size = 32,
-    train_lr = 2e-5,
-    train_num_steps = 700000,         # total training steps
-    gradient_accumulate_every = 2,    # gradient accumulation steps
-    ema_decay = 0.995,                # exponential moving average decay
-    fp16 = True                       # turn on mixed precision training with apex
+    train_batch_size=32,
+    train_lr=2e-5,
+    train_num_steps=700000,  # total training steps
+    gradient_accumulate_every=2,  # gradient accumulation steps
+    ema_decay=0.995,  # exponential moving average decay
+    fp16=True  # turn on mixed precision training with apex
 )
 
 trainer.train()

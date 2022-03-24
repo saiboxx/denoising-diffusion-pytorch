@@ -1,6 +1,6 @@
 import torch
 
-from denoising_diffusion_pytorch import Unet, GaussianDiffusion, Trainer
+from ddpm import Unet, GaussianDiffusion, Trainer
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -30,7 +30,8 @@ def main() -> None:
         ema_decay=0.995,  # exponential moving average decay
         fp16=True, # turn on mixed precision training
         save_and_sample_every=1000,
-        num_workers=64
+        num_workers=64,
+        results_folder='results/v2'
     )
 
     trainer.train()
