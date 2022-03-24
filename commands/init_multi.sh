@@ -6,4 +6,4 @@ source .venv/bin/activate
 python -m pip install einops
 python -m pip install pyyaml
 
-python -u main.py
+python -u main.py -c configs/01_config.yml -s $1

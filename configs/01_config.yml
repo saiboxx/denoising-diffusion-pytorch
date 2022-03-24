@@ -1,0 +1,24 @@
+MODEL:
+  dim: 64
+  dim_mults: [1, 2, 4, 8]
+  channels: 2
+  
+DIFFUSION:
+  image_size: 128
+  timesteps: 1000
+  loss_type: l1
+  beta_scale: 0.2
+  
+TRAINER:
+  folder: /projects/core-rad/data/ILSVRC2012_img_train
+  train_batch_size: 64
+  train_lr: 0.00002
+  train_num_steps: 1500000
+  gradient_accumulate_every: 1
+  ema_decay: 0.995
+  fp16: True
+  save_and_sample_every: 2500
+  num_workers: 32
+  results_folder: results
+  start_from_checkpoint: False
+  checkpoint_path:

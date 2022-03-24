@@ -97,7 +97,7 @@ class GaussianDiffusion(nn.Module):
             channels=2,
             timesteps=1000,
             loss_type='l1',
-            betas=None,
+            beta_scale: float = 1.,
             device=torch.device('cuda')
     ):
         super().__init__()
@@ -105,11 +105,7 @@ class GaussianDiffusion(nn.Module):
         self.image_size = image_size
         self.denoise_fn = denoise_fn
 
-        if exists(betas):
-            betas = betas.detach().cpu().numpy() if isinstance(betas,
-                                                               torch.Tensor) else betas
-        else:
-            betas = cosine_beta_schedule(timesteps)
+        betas = cosine_beta_schedule(timesteps) * beta_scale
 
         alphas = 1. - betas
         alphas_cumprod = np.cumprod(alphas, axis=0)
