@@ -2,8 +2,8 @@
 
 # GPU ressources:
 srun --unbuffered \
-  --gres=gpu:1 \
-  --cpus-per-gpu=64 \
+  --gres=gpu:2 \
+  --cpus-per-gpu=16 \
   --mem=50GB \
   --account=core-rad \
   singularity exec \

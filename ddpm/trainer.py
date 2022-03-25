@@ -319,6 +319,7 @@ class Trainer(object):
 
         if start_from_checkpoint and checkpoint_path is not None:
             self.load(checkpoint_path)
+            print('Loaded checkpoint {}'.format(checkpoint_path))
 
 
     def reset_parameters(self):
@@ -344,7 +345,7 @@ class Trainer(object):
         state_dict = torch.load(checkpoint_path, map_location=self.model.device)
 
         self.step = state_dict['step']
-        self.model.state_dict(state_dict['model'])
+        self.model.load_state_dict(state_dict['model'])
         self.ema_model.load_state_dict(state_dict['ema'])
         self.opt.load_state_dict(state_dict['optimizer'])
 
@@ -381,9 +382,12 @@ class Trainer(object):
             if self.step != 0 and self.step % self.save_and_sample_every == 0:
                 milestone = self.step // self.save_and_sample_every
                 batches = num_to_groups(36, self.batch_size)
+
+                self.ema_model.eval()
                 all_k_space_list = list(
                     map(lambda n: self.ema_model.sample(batch_size=n), batches))
                 all_k_imgs = torch.cat(all_k_space_list, dim=0)
+                self.ema_model.train()
 
                 img_complex = all_k_imgs[:, 0] + 1j * all_k_imgs[:, 1]
                 img_complex = fft.ifftshift(

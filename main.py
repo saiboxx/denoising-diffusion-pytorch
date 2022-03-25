@@ -4,6 +4,7 @@ from typing import Dict
 
 import yaml
 import torch
+from torch.nn import DataParallel
 
 from ddpm import Unet, GaussianDiffusion, Trainer
 
@@ -12,6 +13,7 @@ DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def run(cfg: Dict) -> None:
     model = Unet(**cfg['MODEL'])
+    model = DataParallel(model)
 
     diffusion = GaussianDiffusion(
         model,

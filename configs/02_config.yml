@@ -7,7 +7,7 @@ DIFFUSION:
   image_size: 128
   timesteps: 1000
   loss_type: l1
-  beta_scale: 0.5
+  beta_scale: 0.2
   
 TRAINER:
   folder: /projects/core-rad/data/ILSVRC2012_img_train
@@ -19,6 +19,6 @@ TRAINER:
   fp16: True
   save_and_sample_every: 5000
   num_workers: 32
-  results_folder: results_beta_05
+  results_folder: results_beta_02
   start_from_checkpoint: False
   checkpoint_path:
